@@ -41,6 +41,7 @@ class ShiftTable extends React.Component {
       peakHours: [],
 
       hideAddPeakForm: true,
+      peakTemplate: {},
     };
   }
 
@@ -141,6 +142,10 @@ class ShiftTable extends React.Component {
   handleCanvasClick = (groupId, time) => {
     if (groupId === "peakhour") {
       console.log("time?", time);
+      let peakTemplate = {
+        time: moment(time),
+      }
+      this.setState({peakTemplate});
       this.setState({hideAddPeakForm: false})
     }
   }
