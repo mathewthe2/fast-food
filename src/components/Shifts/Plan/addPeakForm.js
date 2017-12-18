@@ -61,8 +61,9 @@ class AddPeakForm extends React.Component {
 
   }
 
-  handleSubmit = (e) => {
-    e.preventDefault();
+  handleSubmit = () => {
+    // e.preventDefault();
+    console.log("form submitted");
   }
 
   render() {
@@ -82,7 +83,8 @@ class AddPeakForm extends React.Component {
             instruction = "Add peaks for this month."
             valueLink={{            
               value: this.state.hidden,
-              requestChange: this.handleClose.bind(this)
+              requestChange: this.handleClose.bind(this),
+              submitForm: this.handleSubmit.bind(this), 
           }}
                     >
           <form  onSubmit={this.handleSubmit}>
@@ -100,9 +102,6 @@ class AddPeakForm extends React.Component {
 
 
                   <input id="time" type="time" defaultValue={current_hour}/>
-
-                          
-                <input type="submit" value="Submit" /> 
 
                 </form>
         </Dialog>

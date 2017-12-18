@@ -141,7 +141,6 @@ class ShiftTable extends React.Component {
 
   handleCanvasClick = (groupId, time) => {
     if (groupId === "peakhour") {
-      console.log("time?", time);
       let peakPrototype = {
         time: moment(time),
       }

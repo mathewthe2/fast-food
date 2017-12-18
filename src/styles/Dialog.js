@@ -28,6 +28,10 @@ class MSDialog extends Component {
         this.props.valueLink.requestChange(true);
     };
 
+    handleSubmit = () => {
+      this.props.valueLink.submitForm();
+    }
+
     componentWillReceiveProps = (nextProps) => {
       this.setState({
         hidden: nextProps.valueLink.value
@@ -60,7 +64,7 @@ class MSDialog extends Component {
           >
             {this.props.children}
             <DialogFooter>
-              <PrimaryButton onClick={ this.handleClose } text='Save' />
+              <PrimaryButton onClick={ this.handleSubmit } text='Save' />
               <DefaultButton onClick={ this.handleClose } text='Cancel' />
             </DialogFooter>
           </Dialog>
