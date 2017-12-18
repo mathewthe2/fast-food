@@ -41,7 +41,7 @@ class ShiftTable extends React.Component {
       peakHours: [],
 
       hideAddPeakForm: true,
-      peakTemplate: {},
+      peakPrototype: {},
     };
   }
 
@@ -142,10 +142,10 @@ class ShiftTable extends React.Component {
   handleCanvasClick = (groupId, time) => {
     if (groupId === "peakhour") {
       console.log("time?", time);
-      let peakTemplate = {
+      let peakPrototype = {
         time: moment(time),
       }
-      this.setState({peakTemplate});
+      this.setState({peakPrototype});
       this.setState({hideAddPeakForm: false})
     }
   }
@@ -158,7 +158,7 @@ class ShiftTable extends React.Component {
     let manPower = {id: 'manpower', title: 'Manpower'};
     let peaks = {id: 'peakhour', title: 'Peaks'};
 
-    const {persons, shifts, manHours, peakHours} = this.state;
+    const {persons, shifts, manHours, peakHours, peakPrototype} = this.state;
     
     return (
       <div>
@@ -171,6 +171,7 @@ class ShiftTable extends React.Component {
           />
 
           <AddPeakForm 
+          peak={peakPrototype}
             valueLink={{            
               value: this.state.hideAddPeakForm,
               requestChange: this.closeAddPeakForm.bind(this)

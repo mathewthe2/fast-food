@@ -19,6 +19,8 @@ class AddPeakForm extends React.Component {
       peakTypes: [],
       store: {},
 
+      peak: {time: moment(), 
+              },
       hidden: true,
 
     };
@@ -53,8 +55,10 @@ class AddPeakForm extends React.Component {
 
   componentWillReceiveProps = (nextProps) => {
     this.setState({
-      hidden: nextProps.valueLink.value
+      hidden: nextProps.valueLink.value,
+      peak: nextProps.peak
     });
+
   }
 
   handleSubmit = (e) => {
@@ -63,10 +67,10 @@ class AddPeakForm extends React.Component {
 
   render() {
 
-    const {peakTypes, store} = this.state;
+    const {peakTypes, store, peak} = this.state;
 
-    const current_month = `${moment().get("year")}-${moment().get("month")+1}`;  
-
+    const current_month = moment(peak.time).format("YYYY-MM");
+    const current_hour = moment(peak.time).format("hh:mm");
     
     return (
 
@@ -95,7 +99,7 @@ class AddPeakForm extends React.Component {
                 />
 
 
-                  <input id="time" type="time" defaultValue="13:30"/>
+                  <input id="time" type="time" defaultValue={current_hour}/>
 
                           
                 <input type="submit" value="Submit" /> 
