@@ -4,8 +4,6 @@ import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button'
 
 import './DialogStyles.css';
 
-import PropTypes from 'prop-types';
-
 class MSDialog extends Component {
     constructor(props) {
         super(props);
@@ -64,7 +62,7 @@ class MSDialog extends Component {
           >
             {this.props.children}
             <DialogFooter>
-              <PrimaryButton onClick={ this.handleSubmit } text='Save' />
+              <PrimaryButton onClick={ this.handleSubmit } type="submit" text='Save' />
               <DefaultButton onClick={ this.handleClose } text='Cancel' />
             </DialogFooter>
           </Dialog>
@@ -73,10 +71,5 @@ class MSDialog extends Component {
     }
 }
 
-
-Dialog.propTypes = {
-    // title: PropTypes.string.isRequired,
-    // children: PropTypes.element.isRequired
-}
 
 export default MSDialog;

@@ -127,7 +127,7 @@ class ShiftTable extends React.Component {
         client.get(`/peakhours?startDate=${startDate}&endDate=${endDate}`)
         .then(res => {
           let peakHours = res.data.map((peakHour)=> (
-              {id: `peakhour ${peakHour.peakHourId}`,
+              {id: `peakhour ${peakHour.id}`,
                 group: 'peakhour',
                 title: peakHour.demand,
                 start_time: moment(peakHour.peakTime),
