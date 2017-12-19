@@ -11,103 +11,63 @@ import People from './components/Persons';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
+const Menu = (
+  <Router>
+    <div>
+      <Route render={({ history}) => (
+        <CommandBar
+        items={[
+          {
+            key: 'my-store',
+            name: 'My Store',
+            ariaLabel: 'Choose a component example to render in the page',
+            onClick: () => { history.push('/stores') },
+            items: [
+              {
+                key: 'persons-list',
+                name: 'Staff List',
+              onClick: ()  => { history.push('/people') },
+              },
+            ]
+          } ,
+          {
+            key: 'shifts',
+            name: 'Shifts',
+            ariaLabel: 'Choose a component example to render in the page',
+            onClick: ()  => { history.push('/shifts') },
+            items: [
+              {
+                key: 'shift-plan',
+                name: 'Shift Planning',
+                onClick: () => { history.push('/shiftplan') },
+              },
+            ]
+          } ,
+        ]}
+        />
+      )} />
+      <Route path="/people" component={People}/>
+      <Route path="/stores" component={Store}/>
+      <Route path="/shifts" component={Shifts}/>
+      <Route path="/shiftplan" component={ShiftPlan}/>
+    </div>
+  </Router>
+)
+
 
 class App extends Component {
-    constructor(props) {
-      super(props);
-
-      this.state = {
-        page: 'store',
-      }
-
-    }
-  
-  
-      render() {
-        
-        const {page} = this.state;
-
-        return (
-          <div className="App">
-            <header className="App-header">
-               {/* <img src={logo} className="App-logo" alt="logo" /> */}
-              <h1 className="App-title">Fast Food Restaurant Roster System</h1>
-            </header>
-            {/* <p className="App-intro">
-              Fast Food Restaurant Roster System
-            </p> */}
-            <CommandBar
-                items={[
-                  {
-                    key: 'my-store',
-                    name: 'My Store',
-                    ariaLabel: 'Choose a component example to render in the page',
-                    onClick: () => { this.setState({ page: 'store' }) },
-                    items: [
-                      {
-                        key: 'persons-list',
-                        name: 'Staff List',
-                        onClick: () => { this.setState({ page: 'persons-list' }) }
-                      },
-                    ]
-                  } ,
-                  {
-                    key: 'shifts',
-                    name: 'Shifts',
-                    ariaLabel: 'Choose a component example to render in the page',
-                    onClick: () => { this.setState({ page: 'shifts' }) },
-                    items: [
-                      {
-                        key: 'shift-plan',
-                        name: 'Shift Planning',
-                        onClick: () => { this.setState({ page: 'shift-plan' }) }
-                      },
-                    ]
-                  } ,
-                  // {
-                  //   key: 'component-example-menu',
-                  //   name: 'Menu',
-                  //   //disabled: !this.state.isAuthenticated,
-                  //   ariaLabel: 'Choose a component example to render in the page',
-                  //   items: [
-                  //     {
-                  //       key: 'persons-list',
-                  //       name: 'Staff List',
-                  //       onClick: () => { this.setState({ page: 'persons-list' }) }
-                  //     },
-                  //     {
-                  //       key: 'details-list-example',
-                  //       name: 'Store List',
-                  //       onClick: () => { this.setState({ page: 'details-list-example' }) }
-                  //     }
-                  //   ]
-                  // }  
-                ]}
-                />
-               < div>
-              {
-                page === 'persons-list' &&
-                <People/>
-              }
-              {
-                page === 'store' &&
-                <Store />
-              }
-              {
-                page === 'shifts' &&
-                <Shifts />
-              }
-              {
-                page === 'shift-plan' &&
-                <ShiftPlan />
-              }
-              </div>
-
-          </div>
-        );
-
-   
-    }
+  render() {
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1 className="App-title">Fast Food Restaurant Roster System</h1>
+        </header>
+        {Menu}
+      </div>
+    );
+  }
 }
 
 export default App;
