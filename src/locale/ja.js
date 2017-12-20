@@ -1,4 +1,7 @@
 const  ja  = {
+    //components
+    search: '検索',
+      
     //menu
     myStore: '基本情報',
     staffList: '従業員名簿',
@@ -10,5 +13,14 @@ const  ja  = {
     storeName: '店名',
     storeAddress: '住所',
     regularStaffDemand: '日常社員の数',
+
+    //peeople
+    contract: '契約',
+    role: '職',
+    firstName: '名',
+    lastName: '姓',
+    address: '住所',
+    city: '市',
+    experience: '経験'
   }
 export default ja

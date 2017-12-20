@@ -9,66 +9,8 @@ import {
 
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
 
-let _columns = [
-  {
-    key: 'column7',
-    name: 'Contract',
-    fieldName: 'contract',
-    minWidth: 70,
-    maxWidth: 150,
-  },
-  {
-    key: 'column6',
-    name: 'Role',
-    fieldName: 'role',
-    minWidth: 70,
-    maxWidth: 150,
-  },
-  {
-    key: 'firstName',
-    name: 'First Name',
-    fieldName: 'firstName',
-    minWidth: 100,
-    maxWidth: 150,
-  },
-  {
-    key: 'column2',
-    name: 'Last Name',
-    fieldName: 'lastName',
-    minWidth: 100,
-    maxWidth: 150,
-  },
-  {
-    key: 'column3',
-    name: 'Address',
-    fieldName: 'address',
-    minWidth: 100,
-    maxWidth: 150,
-  },
-  {
-    key: 'column44',
-    name: 'City',
-    fieldName: 'city',
-    minWidth: 100,
-    maxWidth: 150,
-  },
-  {
-    key: 'column5',
-    name: 'Exp (yrs)',
-    fieldName: 'experience',
-    minWidth: 50,
-    maxWidth: 150,
-  },
-  // {
-  //   key: 'column2',
-  //   name: 'Value',
-  //   fieldName: 'value',
-  //   minWidth: 100,
-  //   maxWidth: 200,
-  //   isResizable: true,
-  //   ariaLabel: 'Operations for value'
-  // },
-];
+//locale
+import localization from '../../locale/common';
 
 
 
@@ -82,6 +24,8 @@ class PeopleList extends React.Component {
       persons: [],
       filtered_items: [],
     };
+
+    
   }
 
   componentDidMount() {
@@ -102,8 +46,15 @@ class PeopleList extends React.Component {
         this.setState({ persons });
         this.setState({ filtered_items: persons});
       });
+
+      this.setLanguage();
       
   }
+
+  setLanguage = () => {
+    localization.setLanguage(new URLSearchParams(this.props.location.search).get('lang') || 'en');
+    this.setState({});
+ }
 
   onSearch = (keyword) => {
     if (keyword === '') {
@@ -127,6 +78,57 @@ class PeopleList extends React.Component {
   }
 
   render() {
+    let _columns = [
+      {
+        key: 'column7',
+        name: localization.contract,
+        fieldName: 'contract',
+        minWidth: 70,
+        maxWidth: 150,
+      },
+      {
+        key: 'column6',
+        name: localization.role,
+        fieldName: 'role',
+        minWidth: 70,
+        maxWidth: 150,
+      },
+      {
+        key: 'firstName',
+        name: localization.firstName,
+        fieldName: 'firstName',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+      {
+        key: 'column2',
+        name: localization.lastName,
+        fieldName: 'lastName',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+      {
+        key: 'column3',
+        name: localization.address,
+        fieldName: 'address',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+      {
+        key: 'column44',
+        name: localization.city,
+        fieldName: 'city',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+      {
+        key: 'column5',
+        name: localization.experience,
+        fieldName: 'experience',
+        minWidth: 50,
+        maxWidth: 150,
+      },
+    ];
     return (
       <div>
                 
@@ -140,6 +142,7 @@ class PeopleList extends React.Component {
         
         <div>
           <SearchBox
+          labelText={localization.search}
           onSearch={ (keyword) => this.onSearch(keyword) }
           onBlur={ () => this.onBlurSearch.bind(this) }
           onEscape={()=>this.onBlurSearch.bind(this)}
