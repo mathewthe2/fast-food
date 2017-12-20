@@ -1,6 +1,9 @@
 import React from 'react';
 import client from '../../Client';
 
+//locale
+import localization from '../../locale/common';
+
 class Store extends React.Component {
   constructor(props) {
     super(props);
@@ -19,18 +22,24 @@ class Store extends React.Component {
         this.setState({ store });
         //console.log(this.state.store);
       });
-      
+
+      this.setLanguage();
   }
+
+  setLanguage = () => {
+    localization.setLanguage(new URLSearchParams(this.props.location.search).get('lang') || 'en');
+    this.setState({});
+ }
 
   render() {
     const {storeId, name, address, regularStaffDemand} = this.state.store;
 
     return (
       <div>
-         <p>Store ID: {storeId}</p>
-         <p>Name: {name}</p>
-         <p>Address: {address}</p>
-         <p>Regular Staff in Demand: {regularStaffDemand}</p>
+         <p>{localization.storeId} :{storeId}</p>
+         <p>{localization.storeName} :{name}</p>
+         <p>{localization.storeAddress}: {address}</p>
+         <p>{localization.regularStaffDemand} :{regularStaffDemand}</p>
       </div>
     );
   }

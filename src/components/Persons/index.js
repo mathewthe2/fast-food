@@ -71,6 +71,7 @@ let _columns = [
 ];
 
 
+
 class PeopleList extends React.Component {
   constructor(props) {
     super(props);
@@ -128,6 +129,7 @@ class PeopleList extends React.Component {
   render() {
     return (
       <div>
+                
          <p>{this.state.hello}</p>
         {/* <h1>{`/r/${this.props.subreddit}`}</h1>
         <ul>
