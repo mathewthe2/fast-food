@@ -3,6 +3,7 @@ const  ja  = {
     myStore: '基本情報',
     staffList: '従業員名簿',
     shifts: '勤務スケジュール',
+    overtime: '残業',
 
     //store info
     storeId:'店舗ID',

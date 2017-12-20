@@ -84,7 +84,7 @@ const Menu = (props) => (
           } ,
           {
             key: 'overtime',
-            name: 'Overtime',
+            name:  localization.overtime,
             ariaLabel: 'overtime application',
             onClick: () => { history.push(`/overtime?lang=${lang}`) },
           } 

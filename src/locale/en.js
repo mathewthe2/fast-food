@@ -3,7 +3,8 @@ const  en  = {
     myStore: 'My Store',
     staffList: 'Staff List',
     shifts: 'Shifts',
-    
+    overtime: 'Overtime',
+
     //store info
     storeId:'Store ID',
     storeName: 'Name',

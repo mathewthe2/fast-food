@@ -3,6 +3,7 @@ const  chi  = {
     myStore: '店舖資訊',
     staffList: '員工表',
     shifts: '當值表',
+    overtime: '加班',
 
     //store info
     storeId:'店號',
