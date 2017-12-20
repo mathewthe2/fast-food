@@ -11,7 +11,7 @@ import People from './components/Persons';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route } from 'react-router-dom'
 
 const Menu = (
   <Router>

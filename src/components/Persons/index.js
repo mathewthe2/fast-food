@@ -95,9 +95,8 @@ class PeopleList extends React.Component {
         const hello = res.data;
         this.setState({ hello });
       });
-      client.get('/')
+      client.get('/people')
       .then(res => {
-        console.log("table", res.data);
         const persons = res.data;
         this.setState({ persons });
         this.setState({ filtered_items: persons});

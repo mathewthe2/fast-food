@@ -45,98 +45,104 @@ class ShiftTable extends React.Component {
     };
   }
 
+  loadTable() {
+
+     //get persons
+     client.get('/people')
+     .then(res => {
+       let persons = res.data.map(person => (
+         {id: person.personId, 
+         title: `${person.firstName} ${person.lastName}`}
+       ));
+       this.setState({ persons });
+     });
+
+     //get shifts
+     client.get('/shifts')
+     .then(res => {
+       //"shift": "[\"2017-12-25 11:00:00\",\"2017-12-25 12:00:00\"]",
+       const timeLength = 22;
+       let shifts = res.data.map((shift)=> (
+           {id: shift.shiftId, 
+             group: shift.employee,
+             title: shift.summary,
+             start_time: moment(shift.shift.substr(2, timeLength)),
+             end_time: moment(shift.shift.substr(-timeLength-2, timeLength))}
+       ));
+       this.setState({ shifts });
+     });
+
+     //get manpower
+     const startDate = '2017-12-10';
+     const endDate = '2017-12-25';
+     client.get(`/manpower?startDate=${startDate}&endDate=${endDate}`)
+     .then(res => {
+       let manHours = res.data.map((manHour, index)=> (
+           {id: `manpower ${index}`, 
+             group: 'manpower',
+             className: 'manpower',
+             title: manHour.manPower,
+             start_time: moment(manHour.start),
+             end_time: moment(manHour.start).add(1, 'hours') }
+       ))
+       // let length = 0;
+       //   let manHours = res.data.map((manHour, index)=>  {
+       //     if (index === 0) {
+       //     const h = res.data[0];
+       //     const e = 
+       //     ({id: `manpower ${index}`, 
+       //       group: 'manpower',
+       //       className: 'manpower',
+       //       title: 1,
+       //       start_time: moment(h.start),
+       //       end_time: moment(h.start).add(1 , 'hours') });
+       //       console.log(e);
+       //     return e
+       //     }
+       //     if (res.data[index].manPower!== res.data[index-1].manPower) {
+       //       const dateLength = length;
+       //       length = 0;
+       //       const h = res.data[index-1];
+       //       const e = 
+       //       ({id: `manpower ${index-1}`, 
+       //         group: 'manpower',
+       //         className: 'manpower',
+       //         title: h.manPower,
+       //         start_time: moment(h.start),
+       //         end_time: moment(h.start).add(dateLength , 'hours') });
+       //         console.log(e);
+       //       return e
+       //     } else {
+       //       console.log("adding 1")
+       //       length += 1;
+       //       return null
+       //     }
+       //   }).filter(manHour => manHour !== null);
+       
+       this.setState({manHours});
+
+   });
+
+       //get peak hours
+       client.get(`/peakhours?startDate=${startDate}&endDate=${endDate}`)
+       .then(res => {
+         let peakHours = res.data.map((peakHour)=> (
+             {id: `peakhour ${peakHour.id}`,
+               group: 'peakhour',
+               title: peakHour.demand,
+               start_time: moment(peakHour.peakTime),
+               end_time: moment(peakHour.peakTime).add(1, 'hours') }
+         ));
+
+         this.setState({peakHours});
+
+       });
+
+  }
+
   componentDidMount() {
-
-      //get persons
-      client.get('/')
-      .then(res => {
-        let persons = res.data.map(person => (
-          {id: person.personId, 
-          title: `${person.firstName} ${person.lastName}`}
-        ));
-        this.setState({ persons });
-      });
-
-      //get shifts
-      client.get('/shifts')
-      .then(res => {
-        //"shift": "[\"2017-12-25 11:00:00\",\"2017-12-25 12:00:00\"]",
-        const timeLength = 22;
-        let shifts = res.data.map((shift)=> (
-            {id: shift.shiftId, 
-              group: shift.employee,
-              title: shift.summary,
-              start_time: moment(shift.shift.substr(2, timeLength)),
-              end_time: moment(shift.shift.substr(-timeLength-2, timeLength))}
-        ));
-        this.setState({ shifts });
-      });
-
-      //get manpower
-      const startDate = '2017-12-10';
-      const endDate = '2017-12-25';
-      client.get(`/manpower?startDate=${startDate}&endDate=${endDate}`)
-      .then(res => {
-        let manHours = res.data.map((manHour, index)=> (
-            {id: `manpower ${index}`, 
-              group: 'manpower',
-              className: 'manpower',
-              title: manHour.manPower,
-              start_time: moment(manHour.start),
-              end_time: moment(manHour.start).add(1, 'hours') }
-        ))
-        // let length = 0;
-        //   let manHours = res.data.map((manHour, index)=>  {
-        //     if (index === 0) {
-        //     const h = res.data[0];
-        //     const e = 
-        //     ({id: `manpower ${index}`, 
-        //       group: 'manpower',
-        //       className: 'manpower',
-        //       title: 1,
-        //       start_time: moment(h.start),
-        //       end_time: moment(h.start).add(1 , 'hours') });
-        //       console.log(e);
-        //     return e
-        //     }
-        //     if (res.data[index].manPower!== res.data[index-1].manPower) {
-        //       const dateLength = length;
-        //       length = 0;
-        //       const h = res.data[index-1];
-        //       const e = 
-        //       ({id: `manpower ${index-1}`, 
-        //         group: 'manpower',
-        //         className: 'manpower',
-        //         title: h.manPower,
-        //         start_time: moment(h.start),
-        //         end_time: moment(h.start).add(dateLength , 'hours') });
-        //         console.log(e);
-        //       return e
-        //     } else {
-        //       console.log("adding 1")
-        //       length += 1;
-        //       return null
-        //     }
-        //   }).filter(manHour => manHour !== null);
-        
-        this.setState({manHours});
-
-    });
-
-        //get peak hours
-        client.get(`/peakhours?startDate=${startDate}&endDate=${endDate}`)
-        .then(res => {
-          let peakHours = res.data.map((peakHour)=> (
-              {id: `peakhour ${peakHour.id}`,
-                group: 'peakhour',
-                title: peakHour.demand,
-                start_time: moment(peakHour.peakTime),
-                end_time: moment(peakHour.peakTime).add(1, 'hours') }
-          ));
-          this.setState({peakHours});
-
-        });
-      
+    this.loadTable();
+     
   }
 
   handleCanvasClick = (groupId, time) => {
@@ -173,7 +179,8 @@ class ShiftTable extends React.Component {
           peak={peakPrototype}
             valueLink={{            
               value: this.state.hideAddPeakForm,
-              requestChange: this.closeAddPeakForm.bind(this)
+              requestChange: this.closeAddPeakForm.bind(this),
+              updateTable: this.loadTable.bind(this)
           }}
           />
       {/* <BigCalendar

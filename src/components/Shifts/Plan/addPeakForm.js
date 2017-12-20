@@ -4,7 +4,7 @@ import client from '../../../Client';
 
 import moment from 'moment';
 
-import {addPeak} from './addPeak';
+// import {addPeak} from './addPeak';
 
 //ms components
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
@@ -115,11 +115,29 @@ class AddPeakForm extends React.Component {
         startDate: moment(date + ' ' + this.state.startTime, 'DD/MM/YYYY HH:mm').toDate(),
         endDate: moment(date + ' ' + this.state.endTime, 'DD/MM/YYYY HH:mm').toDate(),
       }
-      addPeak(peak);
+      this.addPeak(peak);
       this.handleClose();
     } else {
       alert(this.validate())
     }
+  }
+
+ addPeak = (peak) => {
+    const start = moment(peak.startDate);
+    const end = moment(peak.endDate);
+    const hourDifference = moment.duration(end.diff(start)).asHours();
+  
+    var params = new URLSearchParams();
+    params.append('times', hourDifference);
+    params.append('startTime', start.format('YYYY-MM-DD HH:mm:ss'));
+    params.append('peakType', peak.peakType);
+
+    client.get(`/addpeak?${params.toString().replace('+', ' ')}`)
+    .then(()=> {
+      this.props.valueLink.updateTable();
+      this.props.valueLink.requestChange(); //close add peak form
+    });
+
   }
 
   render() {
