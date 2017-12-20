@@ -22,30 +22,40 @@ import {updateQueryStringParameter, getUrlParameter } from './styles/Utils';
 
 var lang = getUrlParameter('lang') || 'en';
 
-const Languages = (
-    <Dropdown
-      label='Language'
-      placeHolder='English'
-      options={[
-        { key: 'en', text: 'English' },
-        { key: 'ch', text: '中文' },
-        { key: 'ja', text: '日本語' },
-      ]}
-      defaultSelectedKey={getUrlParameter('lang') || 'en'}
-      min={1}
-      onChanged={(l)=> {
-        lang = l.key; 
-       window.location = updateQueryStringParameter(window.location.href, 'lang', lang);;
-       window.location.reload();
-      }}
-  />
-)
+const changeLanguage = (l) => {
+  lang = l; 
+  window.location = updateQueryStringParameter(window.location.href, 'lang', lang);;
+  window.location.reload();
+}
 
 const Menu = (props) => (
   <Router>
     <div>
       <Route render={({ history}) => (
         <CommandBar
+        farItems = {[
+          {
+            key: 'lang-controller',
+            name: 'Language',
+            items: [
+              {
+                key: 'en',
+                name: 'English',
+              onClick: ()  => {changeLanguage('en') },
+              },
+              {
+                key: 'chi',
+                name: '中文',
+              onClick: ()  => {changeLanguage('ch') },
+              },
+              {
+                key: 'ja',
+                name: '日本語',
+              onClick: ()  => {changeLanguage('ja') },
+              },
+            ]
+          } 
+        ]}
         items={[
           {
             key: 'my-store',
@@ -117,7 +127,6 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Fast Food Restaurant Roster System</h1>
         </header>
-        {Languages}
         <Menu/>
       </div>
     );
