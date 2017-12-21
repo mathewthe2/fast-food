@@ -1,6 +1,9 @@
 const  ja  = {
     //components
     search: '検索',
+
+    //title
+    title: 'レストランの勤務スケジュー',
       
     //menu
     myStore: '基本情報',

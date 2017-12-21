@@ -1,6 +1,9 @@
 const  en  = {
     //components
     search: 'Search',
+
+    //title
+    title: 'Fast Food Restaurant Roster System',
     
     //menu
     myStore: 'My Store',

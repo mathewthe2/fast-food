@@ -2,6 +2,9 @@ const  chi  = {
     //components
     search: '搜尋',
 
+    //title
+    title: '快餐廳當值系統',
+
     //menu
     myStore: '店舖資訊',
     staffList: '員工表',

@@ -136,7 +136,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <h1 className="App-title">Fast Food Restaurant Roster System</h1>
+          <h1 className="App-title">{localization.title}</h1>
         </header>
         <Menu/>
       </div>
