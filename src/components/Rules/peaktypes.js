@@ -3,7 +3,6 @@ import client from '../../Client';
 
 import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
 
-import moment from 'moment';
 //locale
 import localization from '../../locale/common';
 

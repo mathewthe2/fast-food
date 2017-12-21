@@ -7,6 +7,7 @@ const  ja  = {
     staffList: '従業員名簿',
     shifts: '勤務スケジュール',
     overtime: '残業',
+    rules: '規則',
 
     //store info
     storeId:'店舗ID',

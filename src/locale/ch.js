@@ -7,6 +7,7 @@ const  chi  = {
     staffList: '員工表',
     shifts: '當值表',
     overtime: '加班',
+    rules: '規則',
 
     //store info
     storeId:'店號',

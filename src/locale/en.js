@@ -7,6 +7,7 @@ const  en  = {
     staffList: 'Staff List',
     shifts: 'Shifts',
     overtime: 'Overtime',
+    rules: 'Business Rules',
 
     //store info
     storeId:'Store ID',

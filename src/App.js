@@ -36,7 +36,7 @@ const Menu = (props) => (
         farItems = {[
           {
             key: 'rules',
-            name:  'Business Rules',
+            name: localization.rules,
             items: [
               {
                 key: 'peak-types',
