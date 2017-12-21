@@ -1,14 +1,14 @@
 import client from '../../Client';
 import moment from 'moment';
 
-const ot = {
-    employee: 2,
-    date: new Date(),
-    startTime: '',
-    duration: '1 hour',
-    type: 'cleaning',
-    status: 'pending'
-  }
+// const ot = {
+//     employee: 2,
+//     date: new Date(),
+//     startTime: '',
+//     duration: '1 hour',
+//     type: 'cleaning',
+//     status: 'pending'
+//   }
 
 export const addOvertime = (ot, callback) => {
 

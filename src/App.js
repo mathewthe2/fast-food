@@ -12,6 +12,7 @@ import PersonDetail from './components/Persons/detail';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 import Overtime from './components/Overtime';
+import PeakTypes from './components/Rules/peaktypes';
 
 //locale
 import localization from './locale/common';
@@ -33,6 +34,17 @@ const Menu = (props) => (
       <Route render={({ history}) => (
         <CommandBar
         farItems = {[
+          {
+            key: 'rules',
+            name:  'Business Rules',
+            items: [
+              {
+                key: 'peak-types',
+                name: 'Peak Types',
+                onClick: () => history.push(`/peaktypes?lang=${lang}`),
+              },
+            ]
+          } ,
           {
             key: 'lang-controller',
             name: 'Language',
@@ -86,7 +98,7 @@ const Menu = (props) => (
             name:  localization.overtime,
             ariaLabel: 'overtime application',
             onClick: () => history.push(`/overtime?lang=${lang}`),
-          } 
+          }
         ]}
         />
       )} />
@@ -96,6 +108,7 @@ const Menu = (props) => (
       <Route path="/shifts" component={Shifts}/>
       <Route path="/shiftplan" component={ShiftPlan}/>
       <Route path="/overtime" component={Overtime}/>
+      <Route path="/peaktypes" component={PeakTypes}/>
       
 
     </div>
