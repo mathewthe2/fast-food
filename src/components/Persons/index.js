@@ -4,7 +4,7 @@ import client from '../../Client';
 import {
   DetailsList,
   // DetailsListLayoutMode,
-  // Selection,
+  Selection,
 } from 'office-ui-fabric-react/lib/DetailsList';
 
 import { SearchBox } from 'office-ui-fabric-react/lib/SearchBox';
@@ -131,6 +131,12 @@ class PeopleList extends React.Component {
         maxWidth: 150,
       },
     ];
+    let  _selection = new Selection({
+      onSelectionChanged: () => {
+        const personId = _selection.getSelection()[0].personId;
+        this.props.history.push(`person/${personId}?lang=${localization.getLanguage()}`)
+      }
+    });
     return (
       <div>
                 
@@ -152,6 +158,7 @@ class PeopleList extends React.Component {
         <DetailsList
           items={ this.state.filtered_items }
           columns={ _columns }
+          selection={ _selection }
           
           // setKey='set'
           // layoutMode={ DetailsListLayoutMode.fixedColumns }
