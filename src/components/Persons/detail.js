@@ -4,9 +4,11 @@ import client from '../../Client';
 import {
   Persona,
   PersonaSize,
-  PersonaInitialsColor,
+  // PersonaInitialsColor,
 } from 'office-ui-fabric-react/lib/Persona';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
 
+import OvertimeForm from '../Overtime/form';
 //locale
 import localization from '../../locale/common';
 
@@ -20,7 +22,11 @@ class PersonDetail extends React.Component {
         lastName: '',
         role: '',
         contract: '',
+        address: '',
+        city: '',
+        experience: '',
       },
+      openOverTimeForm: false,
     };
     
   }
@@ -47,6 +53,20 @@ class PersonDetail extends React.Component {
     });
   }
 
+  openOverTimeForm = () => {
+    console.log("time for overtime")
+    this.setState({
+      openOverTimeForm: true,
+    })
+  }
+
+  closeOverTimeForm = () => {
+    console.log("time for overtime")
+    this.setState({
+      openOverTimeForm: false,
+    })
+  }
+
 
 
   render() {
@@ -63,14 +83,40 @@ class PersonDetail extends React.Component {
     };
 
     return (
-      <div>
-        <div style={{marginTop: 20, marginLeft: 20}} >
+      <div style={{marginTop: 20, marginLeft: 20}} >
+        <div>
          <Persona
           { ...PersonaInfo  }
           size={ PersonaSize.size72 }
-          initialsColor={ PersonaInitialsColor.lightBlue }
+          initialsColor={ Math.floor(Math.random() * 15)}
         />
         </div>
+        <div style={{textAlign: 'left'}}> 
+          <p >Address: {person.address}</p>
+          <p >City: {person.city}</p>
+          <p >Exp (years): {person.experience}</p>
+
+          <DefaultButton
+            primary={ true }
+            text='Overtime Application'
+            onClick={ this.openOverTimeForm.bind(this) }
+            />
+
+            <OvertimeForm 
+              person={person}
+              valueLink={{            
+              value: this.state.openOverTimeForm,
+              requestChange: this.closeOverTimeForm.bind(this),
+              // submitForm: this.handleSubmit.bind(this), 
+              }}
+
+            
+            />
+
+
+
+        </div>
+
 
         
       </div>
