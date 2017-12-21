@@ -129,7 +129,7 @@ class AddPeakForm extends React.Component {
   
     var params = new URLSearchParams();
     params.append('times', hourDifference);
-    params.append('startTime', start.format('YYYY-MM-DD HH:mm:ss'));
+    params.append('startTime', start.format('YYYY-MM-DD HH:mm:ssZZ'));
     params.append('peakType', peak.peakType);
 
     client.get(`/addpeak?${params.toString().replace('+', ' ')}`)

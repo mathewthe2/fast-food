@@ -1,5 +1,5 @@
 import React from 'react';
-import client from '../../Client';
+import moment from 'moment';
 
 //ms components
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
@@ -8,8 +8,10 @@ import { DialogFooter } from 'office-ui-fabric-react/lib/Dialog';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
 import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
 import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
+
+import {addOvertime} from './addOvertime';
 //locale
-import localization from '../../locale/common';
+// import localization from '../../locale/common';
 
 import './form.css';
 
@@ -25,8 +27,10 @@ class OvertimeForm extends React.Component {
 
       //form
       date: new Date(),
+      startTime: moment().format("HH:mm"),
       duration: '',
-      type: 1,
+      type: 'Cleaning',
+      remarks: '',
 
     };
   }
@@ -57,9 +61,28 @@ class OvertimeForm extends React.Component {
     this.setState({showModal: false})
   }
 
+  handleSubmit = (e) => {
+    e.preventDefault();
+    const {date, startTime, duration, type, remarks} = this.state;
+    const ot = {
+      employee: this.props.person.personId,
+      date: date,
+      startTime: startTime,
+      duration: duration,
+      type: type.text || type,
+      remarks: remarks
+    }
+    addOvertime(ot, ()=>{
+      this.handleClose();
+    });
+  }
+
   updateDate = (d) => this.setState({date: d });
+  updateStartTime = (d) =>  this.setState({startTime: d });
   updateDuration = (t) => this.setState({duration: t });
   updateOtType = (t) => this.setState({type: t });
+  updateRemarks = (t) => this.setState({remarks: t });
+  
 
 
 //   setLanguage = () => {
@@ -71,7 +94,7 @@ class OvertimeForm extends React.Component {
   render() {
 
     const {person} = this.props;
-    const {date, duration} = this.state;
+    const {date, startTime} = this.state;
 
     let otTypes = [
       { key: 1,
@@ -84,9 +107,12 @@ class OvertimeForm extends React.Component {
         text: 'Kitchen Maintenance'
       },
       { key: 4,
-        text: 'Customer Service'
+        text: 'Cashier Maintenance'
       },
       { key: 5,
+        text: 'Customer Service'
+      },
+      { key: 6,
         text: 'Other'
       }
     ]
@@ -107,8 +133,7 @@ class OvertimeForm extends React.Component {
           <div className='ms-modalExample-body'>
             <form>
               <p>Name: {person.firstName} {person.lastName}</p>
-              <p>Role: {person.role}</p>
-              <p>Contract: {person.contract}</p>
+              <p>Position: {person.role} ({person.contract})</p>
               <p>StoreID: 1</p>
 
               <DatePicker  value={date}
@@ -116,6 +141,7 @@ class OvertimeForm extends React.Component {
               disableAutoFocus={true}
               onSelectDate={this.updateDate} />
             
+             <TextField label="Start" type="time" defaultValue={startTime} onChanged={this.updateStartTime}/>
              <TextField label="Duration" defaultValue="1 hour" onChanged={this.updateDuration}/>
 
              <Dropdown
@@ -124,6 +150,8 @@ class OvertimeForm extends React.Component {
                   defaultSelectedKey={1}
                   onChanged={this.updateOtType}
                 />
+              
+              <TextField label="Remarks" onChanged={this.updateRemarks}/>
 
         
               <DialogFooter>

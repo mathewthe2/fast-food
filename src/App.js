@@ -4,8 +4,6 @@ import './App.css';
 
 //Office Fabric Components
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
-import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
-
 
 //Components
 import Store from './components/Store';

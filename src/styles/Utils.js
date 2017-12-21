@@ -10,9 +10,5 @@ export const updateQueryStringParameter = (uri, key, value) => {
 }
 
 export const getUrlParameter = (name) => {
-  name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-  let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-  let results = regex.exec(window.location);
-  console.log()
-  return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=([^&;]+?)(&|#|;|$)').exec(window.location)||[undefined,""])[1].replace(/\+/g, '%20'))||null;
 };

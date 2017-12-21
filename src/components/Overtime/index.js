@@ -3,6 +3,7 @@ import client from '../../Client';
 
 import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
 
+import moment from 'moment';
 //locale
 import localization from '../../locale/common';
 
@@ -29,11 +30,16 @@ class Overtime extends React.Component {
   getOverTimeList =() => {
     client.get('/overtime')
     .then(res => {
-      const overtime = res.data;
+      const overtime = this.parseOvertime(res.data);
       this.setState({ overtime });
       this.setState({ filtered_items: overtime});
     });
   }
+
+  parseOvertime = (ot) => ot.map((item) => {
+      item.date = moment(item.date).format('YYYY-MM-DD hh:mm a');
+      return item
+    });
 
   setLanguage = () => {
     localization.setLanguage(new URLSearchParams(this.props.location.search).get('lang') || 'en');
@@ -73,28 +79,28 @@ class Overtime extends React.Component {
       },
       {
         key: 'column3',
-        name: 'date',
+        name: 'Date',
         fieldName: 'date',
         minWidth: 100,
         maxWidth: 150,
       },
       {
         key: 'column44',
-        name: 'duration',
+        name: 'Duration',
         fieldName: 'duration',
         minWidth: 80,
         maxWidth: 100,
       },
       {
         key: 'column5',
-        name: 'type',
+        name: 'Type',
         fieldName: 'type',
         minWidth: 50,
         maxWidth: 150,
       },
       {
         key: 'column6',
-        name: 'status',
+        name: 'Status',
         fieldName: 'status',
         minWidth: 50,
         maxWidth: 150,

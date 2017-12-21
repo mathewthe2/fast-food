@@ -53,20 +53,8 @@ class PersonDetail extends React.Component {
     });
   }
 
-  openOverTimeForm = () => {
-    console.log("time for overtime")
-    this.setState({
-      openOverTimeForm: true,
-    })
-  }
-
-  closeOverTimeForm = () => {
-    console.log("time for overtime")
-    this.setState({
-      openOverTimeForm: false,
-    })
-  }
-
+  openOverTimeForm = () => this.setState({openOverTimeForm: true })
+  closeOverTimeForm = () => this.setState({openOverTimeForm: false })
 
 
   render() {
@@ -74,7 +62,6 @@ class PersonDetail extends React.Component {
     const {person} = this.state;
     
     const PersonaInfo= {
-      primaryText: 'what',
       primaryText: `${person.firstName} ${person.lastName}`,
       imageInitials: `${person.firstName[0]}${person.lastName[0]}`,
       secondaryText: person.role,
