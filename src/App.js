@@ -9,7 +9,8 @@ import { Dropdown } from 'office-ui-fabric-react/lib/Dropdown';
 
 //Components
 import Store from './components/Store';
-import People from './components/Persons';
+import PersonList from './components/Persons';
+import PersonDetail from './components/Persons/detail';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 import Overtime from './components/Overtime';
@@ -41,17 +42,17 @@ const Menu = (props) => (
               {
                 key: 'en',
                 name: 'English',
-              onClick: ()  => {changeLanguage('en') },
+              onClick: ()  => changeLanguage('en'),
               },
               {
-                key: 'chi',
+                key: 'ch',
                 name: '中文',
-              onClick: ()  => {changeLanguage('ch') },
+              onClick: ()  => changeLanguage('ch'),
               },
               {
                 key: 'ja',
                 name: '日本語',
-              onClick: ()  => {changeLanguage('ja') },
+              onClick: ()  => changeLanguage('ja'),
               },
             ]
           } 
@@ -61,24 +62,24 @@ const Menu = (props) => (
             key: 'my-store',
             name: localization.myStore,
             ariaLabel: 'Store Info',
-            onClick: () => { history.push(`/stores?lang=${lang}`) },
+            onClick: () => history.push(`/stores?lang=${lang}`),
             items: [
               {
                 key: 'persons-list',
                 name: localization.staffList,
-              onClick: ()  => { history.push(`/people?lang=${lang}`) },
+              onClick: ()  => history.push(`/personlist?lang=${lang}`),
               },
             ]
           } ,
           {
             key: 'shifts',
             name: localization.shifts,
-            onClick: ()  => { history.push(`/shifts?lang=${lang}`) },
+            onClick: ()  => history.push(`/shifts?lang=${lang}`),
             items: [
               {
                 key: 'shift-plan',
                 name: 'Shift Planning',
-                onClick: () => { history.push(`/shiftplan?lang=${lang}`) },
+                onClick: () => history.push(`/shiftplan?lang=${lang}`),
               },
             ]
           } ,
@@ -86,12 +87,13 @@ const Menu = (props) => (
             key: 'overtime',
             name:  localization.overtime,
             ariaLabel: 'overtime application',
-            onClick: () => { history.push(`/overtime?lang=${lang}`) },
+            onClick: () => history.push(`/overtime?lang=${lang}`),
           } 
         ]}
         />
       )} />
-      <Route path="/people" component={People}/>
+      <Route path="/personlist" component={PersonList}/>
+      <Route path="/person/:personId" component={PersonDetail}/>
       <Route path="/stores" component={Store}/>
       <Route path="/shifts" component={Shifts}/>
       <Route path="/shiftplan" component={ShiftPlan}/>
@@ -119,9 +121,7 @@ class App extends Component {
    }
 
   render() {
-
     
-
     return (
       <div className="App">
         <header className="App-header">

@@ -36,19 +36,21 @@ class PeopleList extends React.Component {
     //   });
       client.get(`/helloworld`)
       .then(res => {
-       // console.log("res", res.data);
         const hello = res.data;
         this.setState({ hello });
       });
-      client.get('/people')
-      .then(res => {
-        const persons = res.data;
-        this.setState({ persons });
-        this.setState({ filtered_items: persons});
-      });
 
+      this.getPeopleList();
       this.setLanguage();
-      
+  }
+
+  getPeopleList = () => {
+    client.get('/personlist')
+    .then(res => {
+      const persons = res.data;
+      this.setState({ persons });
+      this.setState({ filtered_items: persons});
+    });
   }
 
   setLanguage = () => {

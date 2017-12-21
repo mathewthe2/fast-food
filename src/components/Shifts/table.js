@@ -48,7 +48,7 @@ class ShiftTable extends React.Component {
   loadTable() {
 
      //get persons
-     client.get('/people')
+     client.get('/personlist')
      .then(res => {
        let persons = res.data.map(person => (
          {id: person.personId, 
