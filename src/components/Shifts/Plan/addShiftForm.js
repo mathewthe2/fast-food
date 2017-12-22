@@ -105,9 +105,9 @@ class AddShfitForm extends React.Component {
     if (startTime >= endTime) {
       return "End date needs to be after start date."
     }
-    // if (employee <= 0) {
-    //   return "End date needs to be after start date."
-    // }
+    if (employee <= 0) {
+      return "End date needs to be after start date."
+    }
     return "Pass"
   }
 
