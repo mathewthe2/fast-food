@@ -1,6 +1,4 @@
 import React from 'react';
-import client from '../../Client';
-
 import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
 
 //locale

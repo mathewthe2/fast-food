@@ -8,7 +8,7 @@ import {
   // PersonaInitialsColor,
 } from 'office-ui-fabric-react/lib/Persona';
 import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
-import {DetailsList, Selection} from 'office-ui-fabric-react/lib/DetailsList';
+import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
 
 import OvertimeForm from '../Overtime/form';
 //locale
@@ -41,7 +41,7 @@ class MyOvertime extends React.Component {
 
       const {personId} = this.props.match.params;
       this.getPerson(personId);
-      this.getOverTimeList(personId),
+      this.getOverTimeList(personId);
       this.setLanguage();
   }
 
