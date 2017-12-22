@@ -88,7 +88,7 @@ class ShiftTable extends React.Component {
   getRegularStaffDemand = (callback) => {
     client.get(`/stores/1`)
     .then(res => {
-      const regularStaffDemand = res.data[0].regularStaffDemand;
+      const regularStaffDemand = res.data.regularStaffDemand;
       this.setState({ regularStaffDemand });
       callback();
     });

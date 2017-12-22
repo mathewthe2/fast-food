@@ -12,6 +12,7 @@ import PersonDetail from './components/Persons/detail';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 import Overtime from './components/Overtime';
+import OvertimeReview from './components/Overtime/review';
 import PeakTypes from './components/Rules/peaktypes';
 
 //locale
@@ -108,6 +109,7 @@ const Menu = (props) => (
       <Route path="/shifts" component={Shifts}/>
       <Route path="/shiftplan" component={ShiftPlan}/>
       <Route path="/overtime" component={Overtime}/>
+      <Route path="/overtimereview/:personId" component={OvertimeReview}/>
       <Route path="/peaktypes" component={PeakTypes}/>
       
 

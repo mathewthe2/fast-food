@@ -18,7 +18,7 @@ class Store extends React.Component {
 
     client.get(`/stores/1`)
       .then(res => {
-        const store = res.data[0];
+        const store = res.data;
         this.setState({ store });
         //console.log(this.state.store);
       });

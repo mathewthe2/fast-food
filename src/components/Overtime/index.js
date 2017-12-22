@@ -1,7 +1,7 @@
 import React from 'react';
 import client from '../../Client';
 
-import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
+import {DetailsList, Selection} from 'office-ui-fabric-react/lib/DetailsList';
 
 import moment from 'moment';
 //locale
@@ -106,6 +106,14 @@ class Overtime extends React.Component {
         maxWidth: 150,
       },
     ];
+    let  _selection = new Selection({
+      onSelectionChanged: () => {
+        if (_selection.getSelection()[0]) {
+          const personId = _selection.getSelection()[0].employee;
+          this.props.history.push(`overtimereview/${personId}?lang=${localization.getLanguage()}`)
+        }
+      }
+    });
     return (
       <div>
          <p>{this.state.hello}</p>
@@ -113,6 +121,7 @@ class Overtime extends React.Component {
          <DetailsList
           items={ this.state.filtered_items }
           columns={_columns}
+          selection={ _selection }
         />
         
       </div>
