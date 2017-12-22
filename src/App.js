@@ -16,6 +16,7 @@ import Overtime from './components/Overtime';
 import OvertimeReview from './components/Overtime/review';
 import PeakTypes from './components/Rules/peaktypes';
 import OvertimeTypes from './components/Rules/ottypes';
+import SufficiencyTypes from './components/Rules/sufficiencytypes';
 
 
 
@@ -52,6 +53,11 @@ const Menu = (props) => (
                 key: 'ot-types',
                 name: 'Overtime Types',
                 onClick: () => history.push(`/ottypes?lang=${lang}`),
+              },
+              {
+                key: 'suff-types',
+                name: 'Sufficiency Types',
+                onClick: () => history.push(`/sufficiencytypes?lang=${lang}`),
               },
             ]
           } ,
@@ -122,6 +128,7 @@ const Menu = (props) => (
       <Route path="/overtimereview/:overtimeId" component={OvertimeReview}/>
       <Route path="/peaktypes" component={PeakTypes}/>
       <Route path="/ottypes" component={OvertimeTypes}/>
+      <Route path="/sufficiencytypes" component={SufficiencyTypes}/>
       
 
     </div>

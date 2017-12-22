@@ -42,6 +42,7 @@ class ShiftTable extends React.Component {
       shifts: [],
       manHours: [],
       peakHours: [],
+      sufficiency: [],
 
       regularStaffDemand: 0,
 
@@ -53,12 +54,11 @@ class ShiftTable extends React.Component {
   loadTable() {
       this.getPersonList();
       this.getShifts();
-      this.getManPower();
-      this.getRegularStaffDemand(()=>this.getPeakHours());
+      this.getRegularStaffDemand(()=>this.getPeakHours(()=>this.getManPower()));
       // this.getPeakHours();
   }
 
-  getPeakHours = () => {
+  getPeakHours = (callback) => {
     client.get(`/peakhours?startDate=${startDate}&endDate=${endDate}`)
     .then(res => {
       let peakHours = res.data.map((peakHour)=> (
@@ -70,7 +70,7 @@ class ShiftTable extends React.Component {
       ));
 
       this.setState({peakHours});
-
+      callback();
     });
   }
 
@@ -79,7 +79,7 @@ class ShiftTable extends React.Component {
     .then(res => {
       let persons = res.data.map(person => (
         {id: person.personId, 
-        title: `${person.firstName} ${person.lastName}`}
+        title: `${person.firstName} ${person.lastName} (${person.role})`}
       ));
       this.setState({ persons });
     });
@@ -122,6 +122,27 @@ class ShiftTable extends React.Component {
             end_time: moment(manHour.start).add(1, 'hours') }
         ))
         this.setState({manHours});
+
+       
+       //sufficiency
+        let sufficiency = res.data.map((manHour, index)=> {
+          
+        let suff = Math.round(manHour.manPower/this.state.regularStaffDemand * 100) ;
+          
+        for (let h of this.state.peakHours) {
+          if (moment(h.start_time).format() === moment(manHour.start).format()) {
+            suff = Math.round(manHour.manPower/h.title * 100) ;
+          }
+        }
+        
+        return {id: `suff ${index}`, 
+          group: 'sufficiency',
+          className: (suff >= 100 ) ?  'sufficiency' : 'insufficiency',
+          title: suff + '%',
+          start_time:moment(manHour.start),
+          end_time: moment(manHour.start).add(1, 'hours') }
+        })
+        this.setState({sufficiency});
     }
            // let length = 0;
        //   let manHours = res.data.map((manHour, index)=>  {
@@ -157,7 +178,7 @@ class ShiftTable extends React.Component {
        //     }
        //   }).filter(manHour => manHour !== null)
     )};
-  
+
 
   componentDidMount() {
     this.loadTable();
@@ -181,17 +202,19 @@ class ShiftTable extends React.Component {
   render() {
     let manPower = {id: 'manpower', title: 'Manpower'};
     let peaks = {id: 'peakhour', title: 'Peaks'};
+    let sufficiencyGp = {id: 'sufficiency', title: 'Sufficiency'};
 
-    const {persons, shifts, manHours, peakHours, peakPrototype} = this.state;
+    const {persons, shifts, manHours, peakHours, sufficiency, peakPrototype} = this.state;
     
     return (
       <div>
-        <Timeline groups={[...persons, manPower, peaks]}
-              items={[...shifts, ...manHours, ...peakHours]}
+        <Timeline groups={[...persons, manPower, peaks, sufficiencyGp]}
+              items={[...shifts, ...manHours, ...peakHours, ...sufficiency]}
               defaultTimeStart={moment('2017-12-15').startOf('day').add(startTime, 'hour')}
               defaultTimeEnd={moment('2017-12-15').startOf('day').add(endTime, 'hour')} 
               canMove={false}
               onCanvasClick={this.handleCanvasClick}
+              sidebarWidth={250}
           />
 
           <AddPeakForm 

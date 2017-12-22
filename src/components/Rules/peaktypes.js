@@ -41,55 +41,28 @@ class PeakTypes extends React.Component {
 
 
   render() {
-    // let _columns = [
-    //   {
-    //     key: 'firstName',
-    //     name: localization.firstName,
-    //     fieldName: 'firstName',
-    //     minWidth: 50,
-    //     maxWidth: 150,
-    //   },
-    //   {
-    //     key: 'column2',
-    //     name: localization.lastName,
-    //     fieldName: 'lastName',
-    //     minWidth: 50,
-    //     maxWidth: 150,
-    //   },
-    //   {
-    //     key: 'column3',
-    //     name: 'Date',
-    //     fieldName: 'date',
-    //     minWidth: 100,
-    //     maxWidth: 150,
-    //   },
-    //   {
-    //     key: 'column44',
-    //     name: 'Duration',
-    //     fieldName: 'duration',
-    //     minWidth: 80,
-    //     maxWidth: 100,
-    //   },
-    //   {
-    //     key: 'column5',
-    //     name: 'Type',
-    //     fieldName: 'type',
-    //     minWidth: 50,
-    //     maxWidth: 150,
-    //   },
-    //   {
-    //     key: 'column6',
-    //     name: 'Status',
-    //     fieldName: 'status',
-    //     minWidth: 50,
-    //     maxWidth: 150,
-    //   },
-    // ];
+    let _columns = [
+      {
+        key: 'type',
+        name: 'Type',
+        fieldName: 'type',
+        minWidth: 50,
+        maxWidth: 150,
+      },
+      {
+        key: 'demand',
+        name: 'Demand',
+        fieldName: 'demand',
+        minWidth: 50,
+        maxWidth: 150,
+      }
+    ];
     return (
       <div>
 
          <DetailsList
           items={ this.state.filtered_items }
+          columns={_columns}
         />
         
       </div>

@@ -1,4 +1,19 @@
 .react-calendar-timeline .rct-items .rct-item.manpower {
-    background-color: coral;
+    background-color: rgb(236, 124, 193);
     border-color: white;
   }
+
+  .react-calendar-timeline .rct-items .rct-item.sufficiency {
+    background-color: rgb(82, 228, 155);
+    border-color: white;
+  }
+
+  .react-calendar-timeline .rct-items .rct-item.insufficiency {
+    background-color: rgb(250, 11, 11);
+    border-color: white;
+  }
+
+  /* .react-calendar-timeline .rct-items .rct-item.peakhour {
+    background-color: red;
+    border-color: white;
+  } */
