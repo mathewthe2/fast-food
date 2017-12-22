@@ -103,7 +103,7 @@ class ShiftTable extends React.Component {
       //"shift": "[\"2017-12-25 11:00:00\",\"2017-12-25 12:00:00\"]",
       const timeLength = 22;
       let shifts = res.data.map((shift)=> (
-          {id: shift.shiftId, 
+          {id: shift.id, 
             group: shift.employee,
             title: shift.summary,
             start_time: moment(shift.shift.substr(2, timeLength)),

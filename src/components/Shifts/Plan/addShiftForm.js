@@ -27,11 +27,12 @@ class AddShfitForm extends React.Component {
       hidden: true,
 
       //form input
-      peakDate: new Date(),
-      startTime: '',
-      endTime: '',
+      shiftDate: new Date(),
+      startTime: '08:00',
+      endTime: '16:00',
       peakType: 4,
-      summary: 'DUTY,'
+      summary: 'DUTY',
+      employee: 0,
     };
   }
 
@@ -66,7 +67,6 @@ class AddShfitForm extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     this.setState({
       hidden: nextProps.valueLink.value,
-      peak: nextProps.peak,
     });
     let persons = nextProps.persons.map(person => (
       {key: person.id, 
@@ -76,20 +76,11 @@ class AddShfitForm extends React.Component {
     this.setState ({persons})
 
 
-
-    const peak = nextProps.peak;
-    if (peak) {
-      this.setState({
-        peakDate: moment(peak.time).toDate(),
-        startTime: moment(peak.time).startOf('hour').format("HH:mm"),
-        endTime: moment(peak.time).startOf('hour').add(1, 'hours').format("HH:mm")
-      })
-    }
   }
 
   updateDate = (date) => {
     this.setState({
-      peakDate: date
+      shiftDate: date
     })
   }
 
@@ -101,62 +92,65 @@ class AddShfitForm extends React.Component {
     this.setState({endTime: time})
   }
 
-  updatePeak = (peakTypeObj) => {
+  updateEmployee = (obj) => {
     this.setState ({
-      peakType: peakTypeObj.key
+      employee: obj.key
     })
   }
 
   updateSummary = (t) => this.setState({summary: t});
 
   validate = () => {
-    const {startTime, endTime, peakType} = this.state;
+    const {startTime, endTime, employee} = this.state;
     if (startTime >= endTime) {
       return "End date needs to be after start date."
     }
-    if (peakType < 1) {
-      return "Please choose peak type."
-    }
+    // if (employee <= 0) {
+    //   return "End date needs to be after start date."
+    // }
     return "Pass"
   }
 
   handleSubmit = () => {
     // e.preventDefault();
     if (this.validate() === "Pass") {
-      const date = moment(this.state.peakDate).format('DD/MM/YYYY');
-      const peak = {
-        peakType: this.state.peakType,
-        startDate: moment(date + ' ' + this.state.startTime, 'DD/MM/YYYY HH:mm').toDate(),
-        endDate: moment(date + ' ' + this.state.endTime, 'DD/MM/YYYY HH:mm').toDate(),
+      const date = moment(this.state.shiftDate).format('DD/MM/YYYY');
+
+        const startDate =  moment(date + ' ' + this.state.startTime, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm:ssZZ');
+        const endDate = moment(date + ' ' + this.state.endTime, 'DD/MM/YYYY HH:mm').format('YYYY-MM-DD HH:mm:ssZZ');
+        const shift = '["' +  startDate.slice(0, -2) + '","' + endDate.slice(0, -2) + '"]';
+
+      const shiftObj = {
+        employee: this.state.employee,
+        shift: shift,
+        summary: this.state.summary,
       }
-      this.addPeak(peak);
-      this.handleClose();
+      this.addShift(shiftObj, ()=> this.handleClose());
+
     } else {
       alert(this.validate())
     }
   }
 
- addPeak = (peak) => {
-    const start = moment(peak.startDate);
-    const end = moment(peak.endDate);
-    const hourDifference = moment.duration(end.diff(start)).asHours();
-  
-    var params = new URLSearchParams();
-    params.append('times', hourDifference);
-    params.append('startTime', start.format('YYYY-MM-DD HH:mm:ssZZ'));
-    params.append('peakType', peak.peakType);
+ addShift = (shift, callback) => {
 
-    client.get(`/addpeak?${params.toString().replace('+', ' ')}`)
+    var params = new URLSearchParams();
+    params.append('employee', shift.employee);
+    params.append('shift',  shift.shift);
+    params.append('summary', shift.summary);
+
+    client.get(`/addshift?${params.toString()}`)
     .then(()=> {
       this.props.valueLink.updateTable();
       this.props.valueLink.requestChange(); //close add peak form
+      callback();
     });
 
   }
 
   render() {
 
-    const {persons, peakDate, startTime, endTime} = this.state;
+    const {persons, shiftDate, startTime, endTime} = this.state;
 
     return (
 
@@ -184,10 +178,10 @@ class AddShfitForm extends React.Component {
                   options={persons}
                   defaultSelectedKey={4}
                   min={1}
-                  onChanged={this.updatePeak}
+                  onChanged={this.updateEmployee}
                 />
 
-              <DatePicker  value={peakDate}
+              <DatePicker  value={shiftDate}
               label="Date" 
               disableAutoFocus={true}
               onSelectDate={this.updateDate} />
