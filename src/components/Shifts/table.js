@@ -8,6 +8,7 @@ import moment from 'moment';
 import Timeline from 'react-calendar-timeline/lib';
 
 import AddPeakForm from './Plan/addPeakForm';
+import AddShiftForm from './Plan/addShiftForm';
 
 //styles
 import './styles.css';
@@ -48,6 +49,8 @@ class ShiftTable extends React.Component {
 
       hideAddPeakForm: true,
       peakPrototype: {},
+
+      hideAddShiftForm: true,
     };
   }
 
@@ -195,6 +198,14 @@ class ShiftTable extends React.Component {
     }
   }
 
+  openAddShiftForm = () => {
+    this.setState({hideAddShiftForm: false})
+  }
+
+  closeAddShiftForm = () => {
+    this.setState({hideAddShiftForm: true})
+  }
+
   closeAddPeakForm = () => {
     this.setState({hideAddPeakForm: true})
   }
@@ -222,6 +233,20 @@ class ShiftTable extends React.Component {
             valueLink={{            
               value: this.state.hideAddPeakForm,
               requestChange: this.closeAddPeakForm.bind(this),
+              updateTable: this.loadTable.bind(this)
+          }}
+          />
+
+          <div style={{marginTop: 20, marginBottom: 20}}>
+          <button onClick={this.openAddShiftForm.bind(this)}>Add Shift</button>
+          </div>
+
+          <AddShiftForm 
+          peak={peakPrototype}
+          persons={this.state.persons}
+            valueLink={{            
+              value: this.state.hideAddShiftForm,
+              requestChange: this.closeAddShiftForm.bind(this),
               updateTable: this.loadTable.bind(this)
           }}
           />

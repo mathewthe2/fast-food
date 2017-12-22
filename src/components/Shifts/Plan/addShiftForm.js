@@ -13,13 +13,14 @@ import { DatePicker } from 'office-ui-fabric-react/lib/DatePicker';
 
 import Dialog from '../../../styles/Dialog';
 
-class AddPeakForm extends React.Component {
+class AddShfitForm extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       peakTypes: [],
       store: {},
+      persons: [],
 
       peak: {time: moment(), 
               },
@@ -30,20 +31,21 @@ class AddPeakForm extends React.Component {
       startTime: '',
       endTime: '',
       peakType: 4,
+      summary: 'DUTY,'
     };
   }
 
   componentDidMount() {
       //get peak types
-      client.get('/peaktypes')
-      .then(res => {
-        let peakTypes = res.data.map(type => (
-          {key: type.id, 
-          text: type.type,
-          demand: type.demand}
-        ));
-        this.setState({ peakTypes });
-      });
+      // client.get('/peaktypes')
+      // .then(res => {
+      //   let peakTypes = res.data.map(type => (
+      //     {key: type.id, 
+      //     text: type.type,
+      //     demand: type.demand}
+      //   ));
+      //   this.setState({ peakTypes });
+      // });
 
       client.get(`/stores/1`)
       .then(res => {
@@ -64,8 +66,17 @@ class AddPeakForm extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     this.setState({
       hidden: nextProps.valueLink.value,
-      peak: nextProps.peak
+      peak: nextProps.peak,
     });
+    let persons = nextProps.persons.map(person => (
+      {key: person.id, 
+      text: person.title,
+      }
+    ));
+    this.setState ({persons})
+
+
+
     const peak = nextProps.peak;
     if (peak) {
       this.setState({
@@ -95,6 +106,8 @@ class AddPeakForm extends React.Component {
       peakType: peakTypeObj.key
     })
   }
+
+  updateSummary = (t) => this.setState({summary: t});
 
   validate = () => {
     const {startTime, endTime, peakType} = this.state;
@@ -143,21 +156,16 @@ class AddPeakForm extends React.Component {
 
   render() {
 
-    const {peakTypes, peakDate, startTime, endTime} = this.state;
+    const {persons, peakDate, startTime, endTime} = this.state;
 
-    // const current_date = moment(peak.time).toDate();
-    // const current_month = moment(peak.time).format("YYYY-MM");
-    // const current_hour = moment(peak.time).startOf('hour').format("HH:mm")
-    // const nexdt_hour = moment(peak.time).startOf('hour').add(1, 'hours').format("HH:mm");
-    
     return (
 
       <div>
 
       <Dialog
-           buttonTitle = "Add Peak"
-            title = "Add Peak"
-            instruction = "Add peaks for this month."
+           buttonTitle = "Add Shift"
+            title = "Add Shift"
+            instruction = "Add shifts for this month."
             valueLink={{            
               value: this.state.hidden,
               requestChange: this.handleClose.bind(this),
@@ -170,6 +178,15 @@ class AddPeakForm extends React.Component {
 
               <input type="month" defaultValue={current_month} /> */}
 
+              <Dropdown
+                  className='Dropdown-example'
+                  label='Employee'
+                  options={persons}
+                  defaultSelectedKey={4}
+                  min={1}
+                  onChanged={this.updatePeak}
+                />
+
               <DatePicker  value={peakDate}
               label="Date" 
               disableAutoFocus={true}
@@ -177,16 +194,8 @@ class AddPeakForm extends React.Component {
               
               <TextField label="Start" type="time" defaultValue={startTime} onChanged={this.updateStartTime}/>
               <TextField label="End" type="time" defaultValue={endTime} onChanged={this.updateEndTime}/>
-
-              <Dropdown
-                  className='Dropdown-example'
-                  label='Peak Type'
-                  placeHolder='Pick peak type'
-                  options={peakTypes}
-                  defaultSelectedKey={4}
-                  min={1}
-                  onChanged={this.updatePeak}
-                />
+              <TextField label="Summary"  defaultValue={this.state.summary} onChanged={this.updateSummary}/>
+ 
 
                 </form>
         </Dialog>
@@ -197,4 +206,4 @@ class AddPeakForm extends React.Component {
   
 }
 
-export default AddPeakForm;
+export default AddShfitForm;

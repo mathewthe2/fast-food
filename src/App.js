@@ -11,13 +11,13 @@ import PersonList from './components/Persons';
 import PersonDetail from './components/Persons/detail';
 import MyOvertime from './components/Persons/overtime';
 import Shifts from './components/Shifts';
-import ShiftPlan from './components/Shifts/Plan';
+// import ShiftPlan from './components/Shifts/Plan';
 import Overtime from './components/Overtime';
 import OvertimeReview from './components/Overtime/review';
 import PeakTypes from './components/Rules/peaktypes';
 import OvertimeTypes from './components/Rules/ottypes';
 import SufficiencyTypes from './components/Rules/sufficiencytypes';
-
+// import AddShiftForm from './components/Shifts/Plan/addShiftForm';
 
 
 //locale
@@ -103,9 +103,9 @@ const Menu = (props) => (
             onClick: ()  => history.push(`/shifts?lang=${lang}`),
             // items: [
             //   {
-            //     key: 'shift-plan',
-            //     name: 'Shift Planning',
-            //     onClick: () => history.push(`/shiftplan?lang=${lang}`),
+            //     key: 'add-shift',
+            //     name: 'Add Shit',
+            //     onClick: () => history.push(`/addshift?lang=${lang}`),
             //   },
             // ]
           } ,
@@ -123,7 +123,7 @@ const Menu = (props) => (
       <Route path="/myovertime/:personId/" component={MyOvertime}/>
       <Route path="/stores" component={Store}/>
       <Route path="/shifts" component={Shifts}/>
-      <Route path="/shiftplan" component={ShiftPlan}/>
+      {/* <Route path="/addshift" component={AddShiftForm}/> */}
       <Route path="/overtime" component={Overtime}/>
       <Route path="/overtimereview/:overtimeId" component={OvertimeReview}/>
       <Route path="/peaktypes" component={PeakTypes}/>
