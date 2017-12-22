@@ -9,11 +9,15 @@ import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import Store from './components/Store';
 import PersonList from './components/Persons';
 import PersonDetail from './components/Persons/detail';
+import MyOvertime from './components/Persons/overtime';
 import Shifts from './components/Shifts';
 import ShiftPlan from './components/Shifts/Plan';
 import Overtime from './components/Overtime';
 import OvertimeReview from './components/Overtime/review';
 import PeakTypes from './components/Rules/peaktypes';
+import OvertimeTypes from './components/Rules/ottypes';
+
+
 
 //locale
 import localization from './locale/common';
@@ -43,6 +47,11 @@ const Menu = (props) => (
                 key: 'peak-types',
                 name: 'Peak Types',
                 onClick: () => history.push(`/peaktypes?lang=${lang}`),
+              },
+              {
+                key: 'ot-types',
+                name: 'Overtime Types',
+                onClick: () => history.push(`/ottypes?lang=${lang}`),
               },
             ]
           } ,
@@ -86,13 +95,13 @@ const Menu = (props) => (
             key: 'shifts',
             name: localization.shifts,
             onClick: ()  => history.push(`/shifts?lang=${lang}`),
-            items: [
-              {
-                key: 'shift-plan',
-                name: 'Shift Planning',
-                onClick: () => history.push(`/shiftplan?lang=${lang}`),
-              },
-            ]
+            // items: [
+            //   {
+            //     key: 'shift-plan',
+            //     name: 'Shift Planning',
+            //     onClick: () => history.push(`/shiftplan?lang=${lang}`),
+            //   },
+            // ]
           } ,
           {
             key: 'overtime',
@@ -105,12 +114,14 @@ const Menu = (props) => (
       )} />
       <Route path="/personlist" component={PersonList}/>
       <Route path="/person/:personId" component={PersonDetail}/>
+      <Route path="/myovertime/:personId/" component={MyOvertime}/>
       <Route path="/stores" component={Store}/>
       <Route path="/shifts" component={Shifts}/>
       <Route path="/shiftplan" component={ShiftPlan}/>
       <Route path="/overtime" component={Overtime}/>
       <Route path="/overtimereview/:overtimeId" component={OvertimeReview}/>
       <Route path="/peaktypes" component={PeakTypes}/>
+      <Route path="/ottypes" component={OvertimeTypes}/>
       
 
     </div>

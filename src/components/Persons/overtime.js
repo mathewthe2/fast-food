@@ -1,18 +1,20 @@
 import React from 'react';
 import client from '../../Client';
+import moment from 'moment';
 
 import {
   Persona,
   PersonaSize,
   // PersonaInitialsColor,
 } from 'office-ui-fabric-react/lib/Persona';
-import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import {DetailsList, Selection} from 'office-ui-fabric-react/lib/DetailsList';
 
 import OvertimeForm from '../Overtime/form';
 //locale
 import localization from '../../locale/common';
 
-class PersonDetail extends React.Component {
+class MyOvertime extends React.Component {
   constructor(props) {
     super(props);
 
@@ -27,6 +29,8 @@ class PersonDetail extends React.Component {
         experience: '',
       },
       openOverTimeForm: false,
+      overtime: [],
+      filtered_items: [],
     };
     
   }
@@ -37,6 +41,7 @@ class PersonDetail extends React.Component {
 
       const {personId} = this.props.match.params;
       this.getPerson(personId);
+      this.getOverTimeList(personId),
       this.setLanguage();
   }
 
@@ -53,9 +58,19 @@ class PersonDetail extends React.Component {
     });
   }
 
-  redirectToOtApplications = (personId) => {
-    this.props.history.push(`/myovertime/${personId}?lang=${localization.getLanguage()}`)
+  getOverTimeList =(personId) => {
+    client.get(`/overtime_by_person/${personId}`)
+    .then(res => {
+      const overtime = this.parseOvertime(res.data);
+      this.setState({ overtime });
+      this.setState({ filtered_items: overtime});
+    });
   }
+
+  parseOvertime = (ot) => ot.map((item) => {
+    item.date = moment(item.date).format('YYYY-MM-DD hh:mm a');
+    return item
+  });
 
   openOverTimeForm = () => this.setState({openOverTimeForm: true })
   closeOverTimeForm = () => this.setState({openOverTimeForm: false })
@@ -72,6 +87,50 @@ class PersonDetail extends React.Component {
       tertiaryText: person.contract,
       optionalText: 'Available at 4:00pm'
     };
+    let _columns = [
+      {
+        key: 'firstName',
+        name: localization.firstName,
+        fieldName: 'firstName',
+        minWidth: 50,
+        maxWidth: 150,
+      },
+      {
+        key: 'column2',
+        name: localization.lastName,
+        fieldName: 'lastName',
+        minWidth: 50,
+        maxWidth: 150,
+      },
+      {
+        key: 'column3',
+        name: 'Date',
+        fieldName: 'date',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+      {
+        key: 'column44',
+        name: 'Duration',
+        fieldName: 'duration',
+        minWidth: 80,
+        maxWidth: 100,
+      },
+      {
+        key: 'column5',
+        name: 'Type',
+        fieldName: 'type',
+        minWidth: 50,
+        maxWidth: 150,
+      },
+      {
+        key: 'column6',
+        name: 'Status',
+        fieldName: 'status',
+        minWidth: 100,
+        maxWidth: 150,
+      },
+    ];
 
     return (
       <div style={{marginTop: 20, marginLeft: 20}} >
@@ -83,12 +142,18 @@ class PersonDetail extends React.Component {
         />
         </div>
         <div style={{textAlign: 'left'}}> 
-          <p >Address: {person.address}</p>
-          <p >City: {person.city}</p>
-          <p >Exp (years): {person.experience}</p>
 
-            <PrimaryButton onClick={ this.openOverTimeForm.bind(this) } text='Overtime Application' />
-            <DefaultButton  onClick={()=> this.redirectToOtApplications(person.personId) } text='My OT Applications' />
+
+            <DetailsList
+          items={ this.state.filtered_items }
+          columns={_columns}
+        />
+
+            <DefaultButton
+            primary={ true }
+            text='Overtime Application'
+            onClick={ this.openOverTimeForm.bind(this) }
+            />
 
             <OvertimeForm 
               person={person}
@@ -112,4 +177,4 @@ class PersonDetail extends React.Component {
   }
 }
 
-export default PersonDetail;
+export default MyOvertime;

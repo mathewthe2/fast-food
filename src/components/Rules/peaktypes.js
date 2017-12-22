@@ -7,7 +7,7 @@ import {DetailsList} from 'office-ui-fabric-react/lib/DetailsList';
 import localization from '../../locale/common';
 
 
-class Overtime extends React.Component {
+class PeakTypes extends React.Component {
   constructor(props) {
     super(props);
 
@@ -97,4 +97,4 @@ class Overtime extends React.Component {
   }
 }
 
-export default Overtime;
+export default PeakTypes;
