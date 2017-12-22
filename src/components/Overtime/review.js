@@ -1,14 +1,16 @@
 import React from 'react';
 import client from '../../Client';
+import moment from 'moment';
 
 import {
   Persona,
   PersonaSize,
-  // PersonaInitialsColor,
 } from 'office-ui-fabric-react/lib/Persona';
 import { DefaultButton, PrimaryButton } from 'office-ui-fabric-react/lib/Button';
+import { TextField } from 'office-ui-fabric-react/lib/TextField';
 
-import OvertimeForm from '../Overtime/form';
+import {updateOvertimeStatus} from './updateOvertimeStatus';
+
 //locale
 import localization from '../../locale/common';
 
@@ -17,16 +19,19 @@ class OvertimeReview extends React.Component {
     super(props);
 
     this.state = {
-      person: {
+      overtime: {
         firstName: '',
         lastName: '',
-        role: '',
-        contract: '',
-        address: '',
-        city: '',
-        experience: '',
+        date: '',
+        duration: '',
+        type: '',
+        status: '',
+        //approved_by :'',
       },
-      openOverTimeForm: false,
+      managerName: 'Anonymous',
+      
+    
+      // openOverTimeForm: false,
     };
     
   }
@@ -35,8 +40,8 @@ class OvertimeReview extends React.Component {
 
   componentDidMount() {
 
-      const {personId} = this.props.match.params;
-      this.getPerson(personId);
+      const {overtimeId} = this.props.match.params;
+      this.getOvertime(overtimeId);
       this.setLanguage();
   }
 
@@ -45,59 +50,61 @@ class OvertimeReview extends React.Component {
     this.setState({});
  }
 
-  getPerson = (id) => {
-    client.get(`/person/${id}`)
+  getOvertime = (id) => {
+    client.get(`/overtime/${id}`)
     .then(res => {
-      const person = res.data;
-      this.setState({ person });
+      const overtime = res.data;
+      this.setState({ overtime });
     });
   }
 
-  openOverTimeForm = () => this.setState({openOverTimeForm: true })
-  closeOverTimeForm = () => this.setState({openOverTimeForm: false })
+  updateOvertimeStatus = (status) => {
+    updateOvertimeStatus(this.state.overtime.id, status, ()=>{
+      window.location.reload();
+    })
+  }
+
+  updateManagerName = (t) => this.setState({managerName: t });
+
+  redirectToPerson = (personId) => {
+    this.props.history.push(`/person/${personId}?lang=${localization.getLanguage()}`)
+  }
 
 
   render() {
 
-    const {person} = this.state;
+    const {overtime, managerName} = this.state;
     
     const PersonaInfo= {
-      primaryText: `${person.firstName} ${person.lastName}`,
-      imageInitials: `${person.firstName[0]}${person.lastName[0]}`,
-      secondaryText: person.role,
-      tertiaryText: person.contract,
-      optionalText: 'Available at 4:00pm'
+      primaryText: `${overtime.firstName} ${overtime.lastName}`,
+      imageInitials: `${overtime.firstName[0]}${overtime.lastName[0]}`,
     };
 
     return (
       <div style={{marginTop: 20, marginLeft: 20}} >
-        <div>
+        <h4 style={{textAlign: 'left', fontWeight: 'light'}}> Overtime Review </h4>
+        <div  style={{cursor: 'pointer'}} 
+              onClick={()=>this.redirectToPerson(overtime.employee)}>
          <Persona
           { ...PersonaInfo  }
-          size={ PersonaSize.size72 }
+          size={ PersonaSize.size48 }
           initialsColor={ Math.floor(Math.random() * 15)}
         />
         </div>
         <div style={{textAlign: 'left'}}> 
-          <p >Address: {person.address}</p>
+        <p >Date: {moment(overtime.date).format('YYYY-MM-DD hh:mm a')}</p>
+        <p >Duration: {overtime.duration}</p>
+        <p >Type: {overtime.type}</p>
+        <p >Status: {overtime.status}</p>
+          {/* <p >Address: {person.address}</p>
           <p >City: {person.city}</p>
-          <p >Exp (years): {person.experience}</p>
+          <p >Exp (years): {person.experience}</p> */}
 
-
-            <PrimaryButton onClick={ this.handleSubmit } text='Accept' />
-            <DefaultButton onClick={ this.handleClose } text='Decline' />
-
-            <OvertimeForm 
-              person={person}
-              valueLink={{            
-              value: this.state.openOverTimeForm,
-              requestChange: this.closeOverTimeForm.bind(this),
-              // submitForm: this.handleSubmit.bind(this), 
-              }}
-
-            
-            />
-
+            <TextField label="Manager"defaultValue={this.state.managerName} onChanged={this.updateManagerName}/>
+            <div style={{marginTop: 20}} >
+              <PrimaryButton onClick={()=> this.updateOvertimeStatus(`Approved by Manager ${managerName}`) } text='Accept' />
+              <DefaultButton  onClick={()=> this.updateOvertimeStatus(`Declined`) } text='Decline' />
+            </div>
 
 
         </div>

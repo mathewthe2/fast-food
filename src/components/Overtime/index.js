@@ -102,15 +102,15 @@ class Overtime extends React.Component {
         key: 'column6',
         name: 'Status',
         fieldName: 'status',
-        minWidth: 50,
+        minWidth: 100,
         maxWidth: 150,
       },
     ];
     let  _selection = new Selection({
       onSelectionChanged: () => {
         if (_selection.getSelection()[0]) {
-          const personId = _selection.getSelection()[0].employee;
-          this.props.history.push(`overtimereview/${personId}?lang=${localization.getLanguage()}`)
+          const overtimeId = _selection.getSelection()[0].id;
+          this.props.history.push(`overtimereview/${overtimeId}?lang=${localization.getLanguage()}`)
         }
       }
     });

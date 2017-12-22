@@ -109,7 +109,7 @@ const Menu = (props) => (
       <Route path="/shifts" component={Shifts}/>
       <Route path="/shiftplan" component={ShiftPlan}/>
       <Route path="/overtime" component={Overtime}/>
-      <Route path="/overtimereview/:personId" component={OvertimeReview}/>
+      <Route path="/overtimereview/:overtimeId" component={OvertimeReview}/>
       <Route path="/peaktypes" component={PeakTypes}/>
       
 
