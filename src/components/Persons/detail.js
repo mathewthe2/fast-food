@@ -88,7 +88,7 @@ class PersonDetail extends React.Component {
           <p >Exp (years): {person.experience}</p>
 
             <PrimaryButton onClick={ this.openOverTimeForm.bind(this) } text='Overtime Application' />
-            <DefaultButton  onClick={()=> this.redirectToOtApplications(person.personId) } text='My OT Applications' />
+            <DefaultButton  onClick={()=> this.redirectToOtApplications(person.id) } text='My OT Applications' />
 
             <OvertimeForm 
               person={person}

@@ -8,6 +8,7 @@ const  ja  = {
     //menu
     myStore: '基本情報',
     staffList: '従業員名簿',
+    staffCreate: '従業員を添付する',
     shifts: '勤務スケジュール',
     overtime: '残業',
     rules: '規則',

@@ -81,7 +81,7 @@ class ShiftTable extends React.Component {
     client.get('/personlist')
     .then(res => {
       let persons = res.data.map(person => (
-        {id: person.personId, 
+        {id: person.id, 
         title: `${person.firstName} ${person.lastName} (${person.role})`}
       ));
       this.setState({ persons });

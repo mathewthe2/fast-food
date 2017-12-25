@@ -100,7 +100,9 @@ class OvertimeReview extends React.Component {
           <p >City: {person.city}</p>
           <p >Exp (years): {person.experience}</p> */}
 
+            <div style={{width:"50vh"}}>
             <TextField label="Manager"defaultValue={this.state.managerName} onChanged={this.updateManagerName}/>
+            </div>
             <div style={{marginTop: 20}} >
               <PrimaryButton onClick={()=> this.updateOvertimeStatus(`Approved by Manager ${managerName}`) } text='Approve' />
               <DefaultButton  onClick={()=> this.updateOvertimeStatus(`Declined`) } text='Decline' />

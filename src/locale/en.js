@@ -8,6 +8,7 @@ const  en  = {
     //menu
     myStore: 'My Store',
     staffList: 'Staff List',
+    staffCreate: 'Add Staff',
     shifts: 'Shifts',
     overtime: 'Overtime',
     rules: 'Business Rules',

@@ -134,7 +134,7 @@ class PeopleList extends React.Component {
     let  _selection = new Selection({
       onSelectionChanged: () => {
         if (_selection.getSelection()[0]) {
-          const personId = _selection.getSelection()[0].personId;
+          const personId = _selection.getSelection()[0].id;
           this.props.history.push(`person/${personId}?lang=${localization.getLanguage()}`)
         }
       }

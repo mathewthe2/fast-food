@@ -9,6 +9,7 @@ import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 import Store from './components/Store';
 import PersonList from './components/Persons';
 import PersonDetail from './components/Persons/detail';
+import PersonCreate from './components/Persons/create';
 import MyOvertime from './components/Persons/overtime';
 import Shifts from './components/Shifts';
 // import ShiftPlan from './components/Shifts/Plan';
@@ -95,6 +96,11 @@ const Menu = (props) => (
                 name: localization.staffList,
               onClick: ()  => history.push(`/personlist?lang=${lang}`),
               },
+              {
+                key: 'persons-create',
+                name: localization.staffCreate,
+              onClick: ()  => history.push(`/personcreate?lang=${lang}`),
+              },
             ]
           } ,
           {
@@ -119,6 +125,7 @@ const Menu = (props) => (
         />
       )} />
       <Route path="/personlist" component={PersonList}/>
+      <Route path="/personcreate" component={PersonCreate}/>
       <Route path="/person/:personId" component={PersonDetail}/>
       <Route path="/myovertime/:personId/" component={MyOvertime}/>
       <Route path="/stores" component={Store}/>

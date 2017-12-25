@@ -8,6 +8,7 @@ const  chi  = {
     //menu
     myStore: '店舖資訊',
     staffList: '員工表',
+    staffCreate: '新員工',
     shifts: '當值表',
     overtime: '加班',
     rules: '規則',
