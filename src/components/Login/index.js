@@ -6,6 +6,7 @@ import localization from '../../locale/common';
 
 import { TextField } from 'office-ui-fabric-react/lib/TextField';
 import { PrimaryButton, DefaultButton } from 'office-ui-fabric-react/lib/Button';
+import { locale } from 'moment';
 
 class Login extends React.Component {
   constructor(props) {
@@ -34,6 +35,7 @@ class Login extends React.Component {
 
   logout = () => {
     localStorage.removeItem("loggedIn");
+    localStorage.removeItem('authLevel');
     // window.location.reload();
   }
 
@@ -48,6 +50,7 @@ class Login extends React.Component {
     .then((res)=> {
       if (res.data.login == 'true') {
        localStorage.setItem('loggedIn', true)
+       localStorage.setItem('authLevel', res.data.level)
        this.props.history.push(`/stores?lang=${localization.getLanguage()}`)
       } else {
         alert("Incorrect username or password.")
@@ -72,7 +75,11 @@ class Login extends React.Component {
         <form>
 
           <TextField label="Username" value={username} onChanged={this.updateUsername} />
-          <TextField label="Password" value={password} type="password" onChanged={this.updatePassword} />
+          <TextField label="Password" value={password} type="password" onChanged={this.updatePassword}  onKeyPress={event => {
+                if (event.key === 'Enter') {
+                  this.login()
+                }
+              }} />
 
           <div style={{marginTop: 20}} >
           <PrimaryButton onClick={()=> this.login() } text='Login' />

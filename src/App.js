@@ -40,12 +40,32 @@ const loggedIn = () => {
   return localStorage.getItem("loggedIn")
 }
 
-
+const isManager = () => {
+  return localStorage.getItem("loggedIn") && localStorage.getItem("authLevel") > 0
+}
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={props => (
     loggedIn() ? (
       <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+
+const ManagerRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    loggedIn() ? (
+      isManager() ? (
+      <Component {...props}/>
+      ) :
+      (
+        <div>You need higher permission to access this page.</div>
+      )
     ) : (
       <Redirect to={{
         pathname: '/login',
@@ -155,17 +175,17 @@ const Menu = (props) => (
       
       <Route path="/login" component={Login}/>
       <PrivateRoute path="/personlist" component={PersonList} />
-      <Route path="/personcreate" component={PersonCreate}/>
-      <Route path="/person/:personId" component={PersonDetail}/>
-      <Route path="/myovertime/:personId/" component={MyOvertime}/>
-      <Route path="/stores" component={Store}/>
-      <Route path="/shifts" component={Shifts}/>
+      <ManagerRoute path="/personcreate" component={PersonCreate}/>
+      <PrivateRoute path="/person/:personId" component={PersonDetail}/>
+      <ManagerRoute path="/myovertime/:personId/" component={MyOvertime}/>
+      <PrivateRoute path="/stores" component={Store}/>
+      <ManagerRoute path="/shifts" component={Shifts}/>
       {/* <Route path="/addshift" component={AddShiftForm}/> */}
-      <Route path="/overtime" component={Overtime}/>
-      <Route path="/overtimereview/:overtimeId" component={OvertimeReview}/>
-      <Route path="/peaktypes" component={PeakTypes}/>
-      <Route path="/ottypes" component={OvertimeTypes}/>
-      <Route path="/sufficiencytypes" component={SufficiencyTypes}/>
+      <ManagerRoute path="/overtime" component={Overtime}/>
+      <ManagerRoute path="/overtimereview/:overtimeId" component={OvertimeReview}/>
+      <ManagerRoute path="/peaktypes" component={PeakTypes}/>
+      <PrivateRoute path="/ottypes" component={OvertimeTypes}/>
+      <ManagerRoute path="/sufficiencytypes" component={SufficiencyTypes}/>
       
 
     </div>
