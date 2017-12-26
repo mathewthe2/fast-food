@@ -6,6 +6,7 @@ import './App.css';
 import { CommandBar } from 'office-ui-fabric-react/lib/CommandBar';
 
 //Components
+import Login from './components/Login';
 import Store from './components/Store';
 import PersonList from './components/Persons';
 import PersonDetail from './components/Persons/detail';
@@ -24,7 +25,7 @@ import SufficiencyTypes from './components/Rules/sufficiencytypes';
 //locale
 import localization from './locale/common';
 
-import { HashRouter as Router, Route } from 'react-router-dom';
+import { HashRouter as Router, Route, Redirect } from 'react-router-dom';
 import {updateQueryStringParameter, getUrlParameter } from './styles/Utils';
 
 var lang = getUrlParameter('lang') || 'en';
@@ -35,6 +36,25 @@ const changeLanguage = (l) => {
   window.location.reload();
 }
 
+const loggedIn = () => {
+  return localStorage.getItem("loggedIn")
+}
+
+
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    loggedIn() ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/login',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+
 const Menu = (props) => (
   <Router>
     <div>
@@ -42,26 +62,13 @@ const Menu = (props) => (
         <CommandBar
         farItems = {[
           {
-            key: 'rules',
-            name: localization.rules,
-            items: [
-              {
-                key: 'peak-types',
-                name: 'Peak Types',
-                onClick: () => history.push(`/peaktypes?lang=${lang}`),
-              },
-              {
-                key: 'ot-types',
-                name: 'Overtime Types',
-                onClick: () => history.push(`/ottypes?lang=${lang}`),
-              },
-              {
-                key: 'suff-types',
-                name: 'Sufficiency Types',
-                onClick: () => history.push(`/sufficiencytypes?lang=${lang}`),
-              },
-            ]
-          } ,
+            key: 'auth',
+            name: loggedIn() ? 'Logout' : 'Login',
+            onClick: () => { 
+              history.push(`/login?lang=${lang}`);
+              window.location.reload(); //only to change the login/logout label
+            }
+          },
           {
             key: 'lang-controller',
             name: 'Language',
@@ -120,11 +127,34 @@ const Menu = (props) => (
             name:  localization.overtime,
             ariaLabel: 'overtime application',
             onClick: () => history.push(`/overtime?lang=${lang}`),
-          }
+          },
+          {
+            key: 'rules',
+            name: localization.rules,
+            items: [
+              {
+                key: 'peak-types',
+                name: 'Peak Types',
+                onClick: () => history.push(`/peaktypes?lang=${lang}`),
+              },
+              {
+                key: 'ot-types',
+                name: 'Overtime Types',
+                onClick: () => history.push(`/ottypes?lang=${lang}`),
+              },
+              {
+                key: 'suff-types',
+                name: 'Sufficiency Types',
+                onClick: () => history.push(`/sufficiencytypes?lang=${lang}`),
+              },
+            ]
+          } ,
         ]}
         />
       )} />
-      <Route path="/personlist" component={PersonList}/>
+      
+      <Route path="/login" component={Login}/>
+      <PrivateRoute path="/personlist" component={PersonList} />
       <Route path="/personcreate" component={PersonCreate}/>
       <Route path="/person/:personId" component={PersonDetail}/>
       <Route path="/myovertime/:personId/" component={MyOvertime}/>

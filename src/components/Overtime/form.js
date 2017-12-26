@@ -65,7 +65,7 @@ class OvertimeForm extends React.Component {
     e.preventDefault();
     const {date, startTime, duration, type, remarks} = this.state;
     const ot = {
-      employee: this.props.person.personId,
+      employee: this.props.person.id,
       date: date,
       startTime: startTime,
       duration: duration,

@@ -23,7 +23,7 @@ export const addOvertime = (ot, callback) => {
     params.append('duration', duration);
     params.append('type', type + remarks);
 
-//   console.log(params.toString());
+  console.log(params.toString());
 // console.log(moment(date).format('YYYY-MM-DD HH:mm:ssZZ'))
 
     client.post(`/addovertime?${params.toString()}`)

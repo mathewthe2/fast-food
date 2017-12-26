@@ -101,13 +101,13 @@ class AddShfitForm extends React.Component {
   updateSummary = (t) => this.setState({summary: t});
 
   validate = () => {
-    const {startTime, endTime, employee} = this.state;
-    if (startTime >= endTime) {
-      return "End date needs to be after start date."
-    }
-    if (employee <= 0) {
-      return "End date needs to be after start date."
-    }
+    // const {startTime, endTime, employee} = this.state;
+    // if (startTime >= endTime) {
+    //   return "End date needs to be after start date."
+    // }
+    // if (employee <= 0) {
+    //   return "End date needs to be after start date."
+    // }
     return "Pass"
   }
 
@@ -138,6 +138,8 @@ class AddShfitForm extends React.Component {
     params.append('employee', shift.employee);
     params.append('shift',  shift.shift);
     params.append('summary', shift.summary);
+
+    console.log(params)
 
     client.get(`/addshift?${params.toString()}`)
     .then(()=> {
